@@ -24,9 +24,9 @@ const Register = () => {
     const mutation = useMutation<string, AxiosError, Parameters<typeof registerUser>['0']>(registerUser,{
         onMutate: ()=>{
             showNotification({id:'register', title:'Creating account', message: 'Please wait... ', loading: true});
-            router.push('/auth/login')
         },
-        onSuccess:()=>{updateNotification({id:'register', title:'Success', message: 'Successfully created account'})},
+        onSuccess:()=>{updateNotification({id:'register', title:'Success', message: 'Successfully created account'})
+        router.push('/auth/login')},
         onError:()=>{updateNotification({id:'register', title:'Error', message: 'Could not create account'})}
     })
 
