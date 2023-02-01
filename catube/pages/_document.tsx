@@ -12,4 +12,4 @@ export default function Document() {
   )
 }
 
-Document.getInitialProps= createGetInitialProps()
+Document.getInitialProps= createGetInitialProps();
