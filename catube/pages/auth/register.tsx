@@ -10,24 +10,26 @@ import { useRouter } from 'next/router';
 
 const Register = () => {
 
-    const router= useRouter()
+    const router = useRouter()
 
     const form = useForm({
         initialValues: {
             email: '',
             username: '',
             password: '',
-            confirmPassword: '',
+            confirmPass: '',
         }
     });
 
-    const mutation = useMutation<string, AxiosError, Parameters<typeof registerUser>['0']>(registerUser,{
-        onMutate: ()=>{
-            showNotification({id:'register', title:'Creating account', message: 'Please wait... ', loading: true});
+    const mutation = useMutation<string, AxiosError, Parameters<typeof registerUser>['0']>(registerUser, {
+        onMutate: () => {
+            showNotification({ id: 'register', title: 'Creating account', message: 'Please wait... ', loading: true });
         },
-        onSuccess:()=>{updateNotification({id:'register', title:'Success', message: 'Successfully created account'})
-        router.push('/auth/login')},
-        onError:()=>{updateNotification({id:'register', title:'Error', message: 'Could not create account'})}
+        onSuccess: () => {
+            updateNotification({ id: 'register', title: 'Success', message: 'Successfully created account' })
+            router.push('/auth/login')
+        },
+        onError: () => { updateNotification({ id: 'register', title: 'Error', message: 'Could not create account' }) }
     })
 
     const handleSubmit = (values: any) => mutation.mutate(values)
@@ -43,34 +45,34 @@ const Register = () => {
                 </Title>
                 <Paper withBorder shadow='md' p={30} mt={30} radius='md' >
                     <form onSubmit={form.onSubmit(handleSubmit)}>
-<Stack>
+                        <Stack>
 
-                        <TextInput
-                            label="Email"
-                            placeholder='name@example.com'
-                            required
-                            {...form.getInputProps('email')}
-                        />
+                            <TextInput
+                                label="Email"
+                                placeholder='name@example.com'
+                                required
+                                {...form.getInputProps('email')}
+                            />
 
-                        <TextInput
-                            label="Username"
-                            placeholder='kittycat'
-                            required
-                            {...form.getInputProps('username')}
-                        />
+                            <TextInput
+                                label="Username"
+                                placeholder='kittycat'
+                                required
+                                {...form.getInputProps('username')}
+                            />
 
-                        <PasswordInput label='Password'
-                            placeholder='Introduce a strong password' required {...form.getInputProps('password')}/>
-<PasswordInput label='Confirm Password'
-                            placeholder='Introduce the same strong password' required {...form.getInputProps('confirmPassword')}/>
-
-
+                            <PasswordInput label='Password'
+                                placeholder='Introduce a strong password' required {...form.getInputProps('password')} />
+                            <PasswordInput label='Confirm Password'
+                                placeholder='Introduce the same strong password' required {...form.getInputProps('confirmPass')} />
 
 
-                        <Button type='submit'>
-                            Register
-                        </Button>
-</Stack>
+
+
+                            <Button type='submit'>
+                                Register
+                            </Button>
+                        </Stack>
                     </form>
                 </Paper>
             </Container>
