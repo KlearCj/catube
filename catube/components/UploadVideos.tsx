@@ -1,4 +1,5 @@
 import { updateVideo, uploadVideo } from '@/api'
+import { useVideo } from '@/context/videos'
 import { Videos } from '@/types'
 import { Button, Group, Modal, Progress, Stack, Switch, Text, TextInput } from '@mantine/core'
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone'
@@ -9,6 +10,8 @@ import { useMutation } from 'react-query'
 import { ArrowBigUpLine } from 'tabler-icons-react'
 
 const EditVideoForm = ({ videoId, setOpen }: { videoId: string, setOpen: Dispatch<SetStateAction<boolean>> }) => {
+    const { refetch } = useVideo()
+
     const form = useForm({
         initialValues: {
             title: '',
@@ -19,7 +22,10 @@ const EditVideoForm = ({ videoId, setOpen }: { videoId: string, setOpen: Dispatc
 
     type input = Parameters<typeof updateVideo>
     const mutation = useMutation<AxiosResponse<Videos>, AxiosError, input['0']>(updateVideo, {
-        onSuccess: () => { setOpen(false) }
+        onSuccess: () => {
+            setOpen(false)
+            refetch
+        }
     })
 
     return <form onSubmit={form.onSubmit((values) => mutation.mutate({ videoId, ...values }))}>
@@ -73,6 +79,10 @@ const UploadVideos = () => {
                     }}
                 </Dropzone>
                 {progress > 0 && <Progress size='xl' label={`${progress}%`} value={progress} mb='xl' />}
+                {mutation.data && <EditVideoForm
+                    setOpen={setOpen}
+                    videoId={mutation.data.videoId}
+                />}
             </Modal>
             <Button onClick={() => setOpen(true)}>
                 Upload video

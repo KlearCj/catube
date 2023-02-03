@@ -49,3 +49,7 @@ return axios.patch(`${videoBase}/${videoId}`,payload,{
     withCredentials:true
 })
 }
+
+export function getVideos(){
+    return axios.get(videoBase).then(res=> res.data)
+}
